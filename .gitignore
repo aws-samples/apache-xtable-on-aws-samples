@@ -1,0 +1,13 @@
+.venv/
+out
+.jar
+.java-version
+.DS_Store
+.pytest_cache
+__pycache__
+dist
+xtable
+jars
+build
+*.egg-info
+licenses.txt
