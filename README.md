@@ -16,7 +16,7 @@ Commercial vendors and the open source community have recognized this situation 
 
 In this repository, we show how to get started with Apache XTable on AWS. This repository is meant to be used in combination with related blog posts on this topic:
 
-- [Blog - Run Apache XTable on Amazon MWAA to translate open table formats](TODO)
+- [Blog - Run Apache XTable on Amazon MWAA to translate open table formats](https://aws.amazon.com/blogs/big-data/run-apache-xtable-on-amazon-mwaa-to-translate-open-table-formats/)
 
 ## Amazon MWAA Operator
 
