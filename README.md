@@ -66,6 +66,7 @@ In the AWS Console the parameters look like the following and can be set under â
 <img src="./docs/AWSGlueTableProperties.png" height="400" alt="AWS Glue Table Properties"/>
 
 (3) (Optional) Create data lake test environment
+
 In case you do not have a lakehouse setup, these [scripts](https://github.com/aws-samples/apache-xtable-on-aws-samples/tree/main/scripts) can help you to set up a test environment either with your local machine or in a [AWS Glue for Spark Job](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-intro-tutorial.html).
 
 ``` bash
