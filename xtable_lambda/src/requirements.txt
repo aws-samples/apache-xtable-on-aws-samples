@@ -1,0 +1,5 @@
+jpype1==1.5.0
+pydantic==2.8.2
+aws-lambda-powertools==2.36.0
+pyyaml==6.0.1
+boto3==1.34.74

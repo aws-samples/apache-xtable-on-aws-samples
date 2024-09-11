@@ -1,11 +1,15 @@
 # `apache-xtable-on-aws-samples`
 
 - [`apache-xtable-on-aws-samples`](#apache-xtable-on-aws-samples)
+  - [AWS Lambda](#aws-lambda)
+    - [Prerequisites - AWS Lambda](#prerequisites---aws-lambda)
+    - [Step-by-step-guide - AWS Lambda](#step-by-step-guide---aws-lambda)
+    - [Clean Up](#clean-up)
   - [Amazon MWAA Operator](#amazon-mwaa-operator)
     - [Prerequisites - Amazon MWAA Operator](#prerequisites---amazon-mwaa-operator)
     - [Step-by-step-guide - Amazon MWAA Operator](#step-by-step-guide---amazon-mwaa-operator)
     - [\[Optional step: AWS Glue Data Catalog used as an Iceberg Catalog\]](#optional-step-aws-glue-data-catalog-used-as-an-iceberg-catalog)
-    - [Clean Up](#clean-up)
+    - [Clean Up](#clean-up-1)
   - [Security](#security)
   - [Code of Conduct](#code-of-conduct)
   - [License](#license)
@@ -16,7 +20,83 @@ Commercial vendors and the open source community have recognized this situation 
 
 In this repository, we show how to get started with Apache XTable on AWS. This repository is meant to be used in combination with related blog posts on this topic:
 
+- [Blog - Run Apache XTable in AWS Lambda for background conversion of open table formats](https://aws.amazon.com/blogs/big-data/run-apache-xtable-in-aws-lambda-for-background-conversion-of-open-table-formats/)
 - [Blog - Run Apache XTable on Amazon MWAA to translate open table formats](https://aws.amazon.com/blogs/big-data/run-apache-xtable-on-amazon-mwaa-to-translate-open-table-formats/)
+
+## AWS Lambda
+
+Let’s dive deeper into how to deploy the provided AWS CDK stack.
+
+### Prerequisites - AWS Lambda
+
+You need one of the following container runtimes and AWS CDK installed:
+
+- [Finch](https://runfinch.com/docs/getting-started/installation/) or [Docker](https://docs.docker.com/get-docker/)
+- [AWS CDK](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html)
+
+You also need an existing lakehouse setup or can use the provided [scripts](https://github.com/aws-samples/apache-xtable-on-aws-samples/tree/main/scripts) to set up a test environment.
+
+### Step-by-step-guide - AWS Lambda
+
+(1) To deploy the stack, clone the github repo, change into the folder for this Blog Post (xtable_lambda) and deploy the CDK stack. This deploys a set of Lambda functions and an Amazon EventBridge Scheduler:
+
+``` bash
+git clone https://github.com/aws-samples/apache-xtable-on-aws-samples.git
+cd xtable_lambda
+cdk deploy
+```
+
+When using Finch you need to set CDK_DOCKER environment variable before deployment:
+
+``` bash
+export CDK_DOCKER=finch
+```
+
+After the deployment, all your correctly configured Glue Tables will be transformed every hour.
+
+(2) Set required Glue Data Catalog parameters:
+
+For the solution to work, you have to set the correct parameters in the Glue Data Catalog, in each of the Glue Tables you want to transform:
+
+- `"xtable_table_type": "<source_format>"`
+- `"xtable_target_formats": "<target_format>, <target_format>"`
+
+In the AWS Console the parameters look like the following and can be set under “Table properties” when editing a Glue Table:
+
+<img src="./docs/AWSGlueTableProperties.png" height="400" alt="AWS Glue Table Properties"/>
+
+(3) (Optional) Create data lake test environment
+In case you do not have a lakehouse setup, these [scripts](https://github.com/aws-samples/apache-xtable-on-aws-samples/tree/main/scripts) can help you to set up a test environment either with your local machine or in a [AWS Glue for Spark Job](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-intro-tutorial.html).
+
+``` bash
+#local: create hudi dataset on S3
+cd scripts
+pip install -r requirements.txt
+python ./create_hudi_s3.p
+```
+
+### Clean Up
+
+- Delte the deployed CDK stack:
+
+```bash
+  cdk destroy
+```
+
+- Delete the downloaded git repository:
+
+```bash
+  rm -r apache-xtable-on-aws-samples
+```
+
+- Delete the used docker image:
+
+```bash
+  docker image rm public.ecr.aws/lambda/python:3.12.2024.07.10.11-arm64
+```
+
+- Reverse AWS Glue configurations in your Glue Tables.
+- (Optional) Delete test data files created with the test scripts in your S3 Bucket.
 
 ## Amazon MWAA Operator
 
