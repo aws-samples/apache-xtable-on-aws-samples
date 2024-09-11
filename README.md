@@ -77,7 +77,7 @@ python ./create_hudi_s3.p
 
 ### Clean Up
 
-- Delte the deployed CDK stack:
+- Delete the deployed CDK stack:
 
 ```bash
   cdk destroy
@@ -95,8 +95,8 @@ python ./create_hudi_s3.p
   docker image rm public.ecr.aws/lambda/python:3.12.2024.07.10.11-arm64
 ```
 
-- Reverse AWS Glue configurations in your Glue Tables.
-- (Optional) Delete test data files created with the test scripts in your S3 Bucket.
+- Reverse AWS Glue configurations in your Glue Tables
+- (Optional) Delete test data files created with the test scripts in your S3 Bucket
 
 ## Amazon MWAA Operator
 
